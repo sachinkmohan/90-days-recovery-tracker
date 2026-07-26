@@ -1,5 +1,5 @@
-import { getDayInRound, getDaysSinceLastRelapse, getRelapseCountToday } from '@/utils/rounds';
-import type { RelapseEvent } from '@/types/timer';
+import { getBackdateRange, getDayInRound, getDaysSinceLastRelapse, getRelapseCountForDate, getRelapseCountToday } from '@/utils/rounds';
+import type { RelapseEvent, Round } from '@/types/timer';
 
 beforeAll(() => {
   jest.useFakeTimers();
@@ -114,5 +114,72 @@ describe('getRelapseCountToday', () => {
       { timestamp: hoursAgo(1), relapseCountThatDay: 2 },
     ];
     expect(getRelapseCountToday(relapses)).toBe(2);
+  });
+});
+
+describe('getRelapseCountForDate', () => {
+  it('returns 0 when there are no relapses', () => {
+    expect(getRelapseCountForDate([], daysAgo(2))).toBe(0);
+  });
+
+  it('returns 0 when all relapses were on other days', () => {
+    const relapses: RelapseEvent[] = [
+      { timestamp: daysAgo(1), relapseCountThatDay: 1 },
+      { timestamp: daysAgo(3), relapseCountThatDay: 1 },
+    ];
+    expect(getRelapseCountForDate(relapses, daysAgo(2))).toBe(0);
+  });
+
+  it('counts relapses matching the target date, ignoring other days', () => {
+    const relapses: RelapseEvent[] = [
+      { timestamp: daysAgo(2), relapseCountThatDay: 1 },
+      { timestamp: daysAgo(1), relapseCountThatDay: 1 },
+      { timestamp: daysAgo(2), relapseCountThatDay: 2 },
+    ];
+    expect(getRelapseCountForDate(relapses, daysAgo(2))).toBe(2);
+  });
+
+  it('matches the existing getRelapseCountToday result when the target date is today', () => {
+    const relapses: RelapseEvent[] = [
+      { timestamp: hoursAgo(5), relapseCountThatDay: 1 },
+      { timestamp: hoursAgo(1), relapseCountThatDay: 2 },
+      { timestamp: daysAgo(1), relapseCountThatDay: 1 },
+    ];
+    expect(getRelapseCountForDate(relapses, new Date())).toBe(getRelapseCountToday(relapses));
+  });
+
+  it('accepts a date string as well as a Date object', () => {
+    const relapses: RelapseEvent[] = [{ timestamp: daysAgo(2), relapseCountThatDay: 1 }];
+    const target = new Date(daysAgo(2));
+    expect(getRelapseCountForDate(relapses, daysAgo(2))).toBe(
+      getRelapseCountForDate(relapses, target)
+    );
+  });
+});
+
+describe('getBackdateRange', () => {
+  function makeRound(startDate: string, relapses: RelapseEvent[] = []): Round {
+    return { id: 'round-1', roundNumber: 1, startDate, endDate: null, relapses };
+  }
+
+  it('uses the round start date as min when there are no relapses yet', () => {
+    const round = makeRound(daysAgo(10));
+    const range = getBackdateRange(round);
+    expect(range.min).toBe(round.startDate);
+  });
+
+  it('uses the latest relapse timestamp as min when relapses exist', () => {
+    const round = makeRound(daysAgo(10), [
+      { timestamp: daysAgo(5), relapseCountThatDay: 1 },
+      { timestamp: daysAgo(2), relapseCountThatDay: 1 },
+    ]);
+    const range = getBackdateRange(round);
+    expect(range.min).toBe(daysAgo(2));
+  });
+
+  it('max is always the current moment', () => {
+    const round = makeRound(daysAgo(10));
+    const range = getBackdateRange(round);
+    expect(range.max).toBe(new Date().toISOString());
   });
 });

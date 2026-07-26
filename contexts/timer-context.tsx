@@ -9,7 +9,7 @@ import {
 import { StorageService } from '@/services/storage';
 import { DevStorageService } from '@/services/dev-storage';
 import { NotificationService } from '@/services/notification-service';
-import { getDayInRound, getDaysSinceLastRelapse, getRelapseCountToday } from '@/utils/rounds';
+import { getDayInRound, getDaysSinceLastRelapse, getRelapseCountForDate, getRelapseCountToday } from '@/utils/rounds';
 import { MILESTONES, type MilestoneDays } from '@/utils/notifications';
 import { shouldSkipOnboarding } from '@/utils/onboarding';
 import { isSameDay } from 'date-fns';
@@ -35,7 +35,7 @@ interface TimerContextValue {
   devStartDate: Date | null;
   // Actions
   completeOnboarding: (chosenDate: Date, notificationPreset?: NotificationPreset) => Promise<void>;
-  logRelapse: () => Promise<void>;
+  logRelapse: (timestamp?: string) => Promise<void>;
   finishRound: () => Promise<void>;
   startNewRound: () => Promise<void>;
   saveCheckIn: (entry: CheckInEntry) => Promise<void>;
@@ -149,12 +149,13 @@ export function TimerProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const logRelapse = useCallback(async () => {
+  const logRelapse = useCallback(async (timestamp?: string) => {
     if (!currentRound) return;
-    const countToday = getRelapseCountToday(currentRound.relapses);
+    const targetTimestamp = timestamp ?? new Date().toISOString();
+    const countForDate = getRelapseCountForDate(currentRound.relapses, targetTimestamp);
     const event = {
-      timestamp: new Date().toISOString(),
-      relapseCountThatDay: countToday + 1,
+      timestamp: targetTimestamp,
+      relapseCountThatDay: countForDate + 1,
     };
     await StorageService.saveRelapse(currentRound.id, event);
     setCurrentRound((prev) => {

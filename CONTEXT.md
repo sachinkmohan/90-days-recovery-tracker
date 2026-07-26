@@ -25,6 +25,9 @@ The emotional state a user self-reports at check-in time. Three states, each wit
 
 A user-logged event that resets momentum within a round. The app does not define *what* the relapse was — users self-apply the label. Tracking porn-only vs. PMO (porn + masturbation + orgasm) is intentionally out of scope for now; that distinction may be introduced in a future version.
 
+A relapse's `timestamp` need not be the moment of logging — the user may **backdate** it to record a relapse that happened earlier and was forgotten. A backdated relapse is still a normal `Relapse`; backdating is a logging-time choice, not a distinct entity. The pickable range is constrained to `[max(round.startDate, lastRelapseTimestamp), now]` — a relapse can never be inserted *before* an existing one, which keeps a round's relapses always in chronological order. See ADR 0005.
+_Avoid_: "Late-logged relapse", "retroactive entry" — both describe the same thing as "backdated relapse."
+
 ## Round
 
 A 90-day attempt. Has a start date, an optional end date (null if active), and a list of relapse events. Multiple rounds accumulate over time; only one can be active at a time.
