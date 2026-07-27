@@ -15,7 +15,7 @@ Both have to be right simultaneously. A wrong answer to either one produces the 
 
 Phone and laptop talk directly, over the same Wi-Fi network. No third party involved.
 
-```
+```text
 ┌─────────────┐        same Wi-Fi router        ┌─────────────┐
 │   Laptop    │ ───────────────────────────────► │    Phone    │
 │ Metro :8081 │                                   │  Dev Client │
@@ -29,7 +29,7 @@ Fails when: phone and laptop are on different networks (Wi-Fi vs. cellular), the
 
 `npx expo start --tunnel` starts a local `ngrok` client on your laptop, which opens an outbound connection to ngrok's public relay servers. The relay hands out a public `https://…exp.direct` URL. Your phone talks to that public URL over the open internet — it never needs to reach your laptop directly, so LAN restrictions and most firewalls stop mattering.
 
-```
+```text
 ┌─────────────┐                                    ┌─────────────┐
 │   Laptop    │                                    │    Phone    │
 │ Metro :8081 │                                    │  Dev Client │
@@ -50,7 +50,7 @@ Trade-off: an extra network hop (laptop → internet → back to phone) means sl
 
 Scanning a QR code or opening a URL only works if the *app that opens it* understands this project's native code. There are two different apps this could be:
 
-```
+```text
                   scans QR code / opens URL
         Phone  ───────────────────────────────►  which app receives it?
 
@@ -84,7 +84,7 @@ Scanning a QR code or opening a URL only works if the *app that opens it* unders
 
 With the phone connected via USB (and, for iOS, trusted/paired with Xcode):
 
-```
+```bash
 npx expo run:ios --device      # iOS
 npx expo run:android           # Android
 ```
@@ -95,7 +95,7 @@ This compiles the native app and installs it directly on the connected phone.
 
 **LAN mode** (phone and laptop on the same Wi-Fi, no VPN, no client-isolated network):
 
-```
+```bash
 npx expo start
 ```
 
@@ -103,7 +103,7 @@ Scan the QR code, or open the printed `exp://192.168.x.x:8081` URL, from inside 
 
 **Tunnel mode** (LAN mode fails, or networks differ):
 
-```
+```bash
 npx expo start --tunnel
 ```
 
@@ -123,6 +123,6 @@ Expo's tunnel mode needs the `@expo/ngrok` **npm package**, not the standalone `
 **4. Tunnel mode starts, but no QR code or URL is printed.**
 Expo's connection banner is drawn by an interactive terminal UI — it only renders when stdout is a real TTY. If `expo start` is run through `CI=1`, in a non-interactive shell, or with output piped/redirected, the banner never appears (and pressing `c` does nothing, since there's no interactive session to respond to). Run it directly in a normal terminal app (Terminal.app, iTerm) with `CI` unset (`echo $CI` should print nothing) to get the banner. As a fallback, the tunnel URL can always be read directly from ngrok's local API while `expo start --tunnel` is running:
 
-```
+```bash
 curl -s http://localhost:4040/api/tunnels | grep -o '"public_url":"https:[^"]*"'
 ```

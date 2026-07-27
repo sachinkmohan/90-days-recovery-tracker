@@ -73,7 +73,7 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 
 ### Issue tracker
 
-Issues live as GitHub issues (`sachinkmohan/90-days-nofap-timer`), managed via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+Issues live as GitHub issues (`sachinkmohan/90-days-recovery-tracker`), managed via the `gh` CLI. See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 

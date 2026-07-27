@@ -31,8 +31,8 @@ Counts how many relapses fall on the same local calendar day as `date`. Worked e
 | `2026-07-23T00:15:00Z` | Jul 23, 02:15 | **Jul 23** |
 
 ```ts
-getRelapseCountForDate(relapses, 'Jul 22') // → 1 (only the first row)
-getRelapseCountForDate(relapses, 'Jul 23') // → 2 (rows 2 and 3)
+getRelapseCountForDate(relapses, '2026-07-22T00:00:00Z') // → 1 (only the first row)
+getRelapseCountForDate(relapses, '2026-07-23T00:00:00Z') // → 2 (rows 2 and 3)
 ```
 
 Note that rows 2 and 3 look far apart as raw UTC date strings but land on the same local day, while row 1 shares its UTC date string with row 2 but lands on a *different* local day. The UTC string alone is not a reliable guide to which day a relapse belongs to — only the local calendar day is.
