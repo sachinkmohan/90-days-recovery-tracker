@@ -9,6 +9,7 @@ export default defineConfig({
       { text: 'Home', link: '/' },
       { text: 'Domain', link: '/domain' },
       { text: 'Decisions', link: '/decisions/' },
+      { text: 'Guides', link: '/guides/running-on-device' },
       { text: 'Reference', link: '/reference/rounds-date-logic' },
       { text: 'Agent Skills', link: '/agent-skills/issue-tracker' },
     ],
@@ -26,6 +27,12 @@ export default defineConfig({
           { text: '0003 — Porn-specific scope', link: '/decisions/0003-porn-specific-scope' },
           { text: '0004 — Explicitness policy', link: '/decisions/0004-explicitness-policy' },
           { text: '0005 — Backdated relapse ordering', link: '/decisions/0005-backdated-relapse-ordering' },
+        ],
+      },
+      {
+        text: 'Guides',
+        items: [
+          { text: 'Running the app on a physical device', link: '/guides/running-on-device' },
         ],
       },
       {
