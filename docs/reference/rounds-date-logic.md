@@ -262,14 +262,14 @@ Nothing is stored — `relapseCountToday` is recalculated from `currentRound.rel
 
 Key point: `rounds.ts` functions are pure — they take arrays/dates in, return numbers/objects out, and touch nothing else. `timer-context.tsx` is what decides *when* to call them (every render vs. on a button tap) and *what to do* with the result (expose it vs. persist it and update state).
 
-### Where `getBackdateRange` fits (not wired up yet)
+### Where `getBackdateRange` fits
 
 ```
 ┌───────────────────────────┐
-│ relapse-modal.tsx (future,│   ticket #16 — blocked on #15, not built yet
-│ backdated entry UI)       │
+│ relapse-modal.tsx          │   ticket #16 — "This happened earlier" toggle
+│ (backdated entry UI)       │
 └─────────────┬─────────────┘
-              │ calls
+              │ calls directly (not through timer-context.tsx)
               ▼
 ┌────────────────────────────────────┐        ┌───────────────────────────┐
 │ rounds.ts: getBackdateRange(round) │──────► │ { min, max } bounds       │
@@ -282,7 +282,7 @@ Key point: `rounds.ts` functions are pure — they take arrays/dates in, return 
                                          real timestamp instead of undefined
 ```
 
-`getBackdateRange` exists and is fully tested today, but nothing calls it yet — `timer-context.tsx` doesn't import it. It's the piece ticket #16 will use to constrain the picker before handing a chosen date to the same `logRelapse` already in place.
+`getBackdateRange` is called directly from `relapse-modal.tsx` to bound the date/time picker's `minimumDate`/`maximumDate` before the user picks a value. `timer-context.tsx` still doesn't import it — `logRelapse` only needs the already-chosen timestamp, not the range logic that produced it.
 
 ## Why local-time dependence is correct here, not a bug
 

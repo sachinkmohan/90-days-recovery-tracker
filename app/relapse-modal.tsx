@@ -156,6 +156,8 @@ export default function RelapseModal() {
                   mode="time"
                   display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                   onChange={onTimeChange}
+                  minimumDate={minDate}
+                  maximumDate={maxDate}
                   style={styles.picker}
                 />
               )}

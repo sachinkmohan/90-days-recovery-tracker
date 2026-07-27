@@ -6,11 +6,14 @@ export function getDayInRound(startDate: string): number {
   return Math.min(day, 90);
 }
 
-export function getDaysSinceLastRelapse(relapses: RelapseEvent[]): number | null {
+function getLatestRelapse(relapses: RelapseEvent[]): RelapseEvent | null {
   if (relapses.length === 0) return null;
-  const latest = relapses.reduce((a, b) =>
-    new Date(a.timestamp) > new Date(b.timestamp) ? a : b
-  );
+  return relapses.reduce((a, b) => (new Date(a.timestamp) > new Date(b.timestamp) ? a : b));
+}
+
+export function getDaysSinceLastRelapse(relapses: RelapseEvent[]): number | null {
+  const latest = getLatestRelapse(relapses);
+  if (!latest) return null;
   return differenceInDays(new Date(), new Date(latest.timestamp));
 }
 
@@ -28,10 +31,7 @@ export function getRelapseCountToday(relapses: RelapseEvent[]): number {
 // chronological order so no entry ever needs its `relapseCountThatDay`
 // recomputed when a new one is inserted. See ADR 0005.
 export function getBackdateRange(round: Round): { min: string; max: string } {
-  const latestRelapse =
-    round.relapses.length > 0
-      ? round.relapses.reduce((a, b) => (new Date(a.timestamp) > new Date(b.timestamp) ? a : b))
-      : null;
+  const latestRelapse = getLatestRelapse(round.relapses);
 
   const min =
     latestRelapse && new Date(latestRelapse.timestamp) > new Date(round.startDate)
