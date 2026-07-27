@@ -2,7 +2,7 @@
   "expo": {
     "name": "90 Days Recovery Tracker",
     "slug": "90-days-recovery-tracker",
-    "version": "1.5.0",
+    "version": "1.6.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon-ninety-days.png",
     "scheme": "ninetydaysrecovery",
@@ -17,7 +17,7 @@
     },
     "android": {
       "package": "com.ninetydays.recoverytracker",
-      "versionCode": 3,
+      "versionCode": 4,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/icon-ninety-days-android-foreground.png",
