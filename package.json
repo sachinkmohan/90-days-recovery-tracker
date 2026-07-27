@@ -9,7 +9,10 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "test": "jest"
+    "test": "jest",
+    "docs:dev": "vitepress dev docs-site",
+    "docs:build": "vitepress build docs-site",
+    "docs:preview": "vitepress preview docs-site"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
@@ -51,7 +54,8 @@
     "eslint-config-expo": "~10.0.0",
     "jest": "29.7.0",
     "jest-expo": "~54.0.0",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.2",
+    "vitepress": "^1.6.4"
   },
   "private": true
 }

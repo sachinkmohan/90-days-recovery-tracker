@@ -60,14 +60,15 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "8840b376-e098-4f9c-9fc1-798b8ca88f1b"
+        "projectId": "b5dc4f92-1418-4b05-94d5-feb7f1a22bb5"
       }
     },
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/8840b376-e098-4f9c-9fc1-798b8ca88f1b"
-    }
+      "url": "https://u.expo.dev/b5dc4f92-1418-4b05-94d5-feb7f1a22bb5"
+    },
+    "owner": "ecmalayalam"
   }
 }

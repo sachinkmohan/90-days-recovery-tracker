@@ -36,6 +36,10 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+# VitePress
+docs-site/.vitepress/cache/
+docs-site/.vitepress/dist/
+
 app-example
 
 # generated native folders
