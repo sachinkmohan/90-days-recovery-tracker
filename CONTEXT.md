@@ -40,6 +40,39 @@ Someone specifically trying to break free from pornography use. The 90-day frame
 
 **90 Days Recovery Tracker** — deliberately generic enough to be discreet on a home screen (no "porn" in the title), while still being honest about the commitment. "Recovery" covers the porn-recovery framing without requiring explicit labelling in the app icon or notification banners.
 
+## Summary (AI Summary / Recap)
+
+An on-demand, AI-generated **reflective recap** of a user's own check-in and relapse data
+for a round — a supportive mirror ("22 check-ins, mostly strong; both relapses followed
+struggling days"). It is deliberately **not** coaching or medical/therapeutic advice.
+Generated only when the user taps a button, never automatically. Only **aggregate stats +
+mood labels** are sent to the LLM to produce it — raw check-in notes never leave the device.
+The generated summary text is the only AI-related thing stored server-side. Planned feature;
+see ADR 0006.
+_Avoid_: "AI insights", "AI coach", "advice" — the recap does not advise.
+
+## Account
+
+An optional **email-based login**. Login is the single gate for both AI Summaries and cloud
+backup, and is the point at which the user consents to their data leaving the device.
+No-login users keep the full local app with zero server footprint. Accounts never ask for a
+real name — email is the only personal datum. Account deletion wipes email, stored summaries,
+and diamond balance (unspent diamonds forfeited, with a clear upfront warning). See ADR 0006.
+
+## Diamond
+
+A consumable in-app currency, purchased via IAP (RevenueCat), spent to generate AI Summaries
+beyond the free capped allowance. The balance is authoritative **server-side** (Supabase);
+the backend verifies-and-deducts before each generation. A consumable, not a subscription.
+Deferred to v2 — v1 ships AI Summaries free-but-capped. See ADR 0006.
+_Avoid_: "credits", "coins", "tokens" — "tokens" especially collides with LLM tokens.
+
+## Backup
+
+Server-side (Supabase) storage of a logged-in user's generated **Summaries only** — not raw
+check-ins or relapse notes, which stay on-device. "Backing up the summaries" is intentionally
+a smaller, more private feature than full journal/cloud sync (which was rejected). See ADR 0006.
+
 ## Explicitness Policy
 
 Two surfaces, two rules:
