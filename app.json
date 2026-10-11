@@ -12,7 +12,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.ninetydays.recoverytracker",
       "infoPlist": {
-        "NSUserNotificationsUsageDescription": "Get a daily reminder to check in and stay on track."
+        "NSUserNotificationsUsageDescription": "Get a daily reminder to check in and stay on track.",
+        "LSApplicationQueriesSchemes": ["mailto"]
       }
     },
     "android": {

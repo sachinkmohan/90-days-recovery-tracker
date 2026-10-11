@@ -54,6 +54,7 @@ export default function RootLayout() {
               headerShown: false,
             }}
           />
+          <Stack.Screen name="settings" options={{ title: 'Settings' }} />
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>
