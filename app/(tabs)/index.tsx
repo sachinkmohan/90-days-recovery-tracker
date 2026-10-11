@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedText } from '@/components/themed-text';
+import { IconSymbol } from '@/components/ui/icon-symbol';
 
 export default function TimerScreen() {
   const router = useRouter();
@@ -16,6 +17,7 @@ export default function TimerScreen() {
   const tint = useThemeColor({}, 'tint');
   const secondary = useThemeColor({}, 'timerSecondary');
   const celebration = useThemeColor({}, 'celebration');
+  const icon = useThemeColor({}, 'icon');
   const {
     currentRound,
     roundNumber,
@@ -76,6 +78,10 @@ export default function TimerScreen() {
     router.push('/check-in-modal');
   };
 
+  const openSettings = () => {
+    router.push('/settings');
+  };
+
   if (isLoading) {
     return (
       <SafeAreaView style={[styles.container, { backgroundColor }]}>
@@ -93,6 +99,9 @@ export default function TimerScreen() {
   if (dayInRound >= 90 && !currentRound.endDate && redirectedToSummary) {
     return (
       <SafeAreaView style={[styles.container, { backgroundColor }]}>
+        <View style={styles.gearRow}>
+          <SettingsGear color={icon} onPress={openSettings} />
+        </View>
         <View style={styles.roundCompleteContainer}>
           <ThemedText style={[styles.roundCompleteTitle, { color: celebration }]}>
             Round complete!
@@ -112,6 +121,9 @@ export default function TimerScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor }]} edges={['top']}>
+      <View style={styles.gearRow}>
+        <SettingsGear color={icon} onPress={openSettings} />
+      </View>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
@@ -141,9 +153,31 @@ export default function TimerScreen() {
   );
 }
 
+function SettingsGear({ color, onPress }: { color: string; onPress: () => void }) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel="Settings"
+      onPress={onPress}
+      hitSlop={8}
+      style={styles.gearButton}
+    >
+      <IconSymbol name="gearshape.fill" size={22} color={color} />
+    </Pressable>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  gearRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingRight: 8,
+  },
+  gearButton: {
+    padding: 8,
   },
   loadingContainer: {
     flex: 1,
@@ -158,7 +192,7 @@ const styles = StyleSheet.create({
   },
   heroSection: {
     alignItems: 'center',
-    paddingTop: 32,
+    paddingTop: 8,
     paddingBottom: 8,
   },
   heroNumber: {

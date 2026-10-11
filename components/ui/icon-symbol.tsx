@@ -21,6 +21,7 @@ const MAPPING = {
   'clock.fill': 'access-time',
   'list.bullet': 'list',
   'chart.bar.fill': 'bar-chart',
+  'gearshape.fill': 'settings',
 } as IconMapping;
 
 /**

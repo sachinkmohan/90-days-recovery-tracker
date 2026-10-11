@@ -46,3 +46,8 @@ Two surfaces, two rules:
 
 - **Store listing (App Store / Play Store):** Explicit. Says "porn" directly in the description and keywords. Users are in a deliberate discovery context; discoverability matters.
 - **In-app UI:** Explicit on the onboarding welcome screen only ("Built to help you break free from porn. One day at a time."). All subsequent surfaces — notifications, widgets, home screen, history, check-in — use neutral language ("relapse", "recovery", "clean days"). Reason: these surfaces are ambient and potentially visible to others.
+
+## Feedback
+
+A bug report or a feature suggestion a user sends the developer.
+_Avoid_: Contact page, contact me
